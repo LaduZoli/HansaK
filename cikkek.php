@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<!-- DataTables CSS -->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
+	<link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/datatables.min.css" rel="stylesheet">
 	
 	<style>
 	.cust-table {
@@ -124,19 +124,17 @@
 		</section>
     </div>
 	
-	<!-- Jquery Core Js -->
-    <script src="js/jquery.min.js"></script>
-
-    <!-- Bootstrap Core Js -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Bootstrap Select Js -->
-    <script src="js/bootstrap-select.js"></script>
-	
 	<!-- DataTables -->
-	<script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
-	<script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 	
+	<script>
 	$(document).ready(function(e){
 		$('#post_list').dataTable({
 			"bProcessing": true,
@@ -147,7 +145,12 @@
 	            error: function(){
 	              $("#post_list_processing").css("display","none");
 	            }
-          	}
+          	},
+			dom: 'lBfrtip',
+    		buttons: [
+        		'copy', 'csv', 'excel', 'pdf'
+   			],
+			"lengthMenu": [ [10, 25, 50, 100], [10, 25, 50, "All"] ]
         });
 	});
     </script>
@@ -163,7 +166,7 @@
 			var verzio = $('#verzio').val();
 			var partnerid = $('#partnerid').val();
 
-			if(cikkszam != '' && vonalkod != '' && nev != ''&& mennyisegiegyseg != '' && nettoegysegar != '' && verzio != '' && partnerid != '')
+			if(cikkszam != '' && vonalkod != '' && nev != '' && mennyisegiegyseg != '' && nettoegysegar != '' && verzio != '')
 			{
 				$.ajax({
 					url:"action/cikkek_insert.php",

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>2. Szerveroldali alkalmazás</title>
+    <title>3. Kész felület</title>
     
     <!-- Bootstrap Core Css -->
     <link href="css/bootstrap.css" rel="stylesheet" />
@@ -20,10 +20,9 @@
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<!-- DataTables CSS -->
+	<!-- DataTables CSS -->	
 	<link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/datatables.min.css" rel="stylesheet">
 
-	
 	<style>
 	.cust-table {
 	    margin: 35px 0px;
@@ -40,62 +39,63 @@
 	table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 		background-color: #ace0e0;
 	}
+	.details-button {
+    	background-color: #3498db;
+    	color: #fff;
+    	border: none;
+    	padding: 5px 10px;
+    	cursor: pointer;
+    	/* Add any other styles you desire */
+}
+
+	.details-button:hover {
+    	background-color: #2980b9;
+    	/* Define hover styles as needed */
+}
+	
 	</style>
 </head>
 <body>
     <div class="all-content-wrapper">
 		<!-- Top Bar -->
-		<?php require_once('include/header.php'); ?>
+		<?php require_once('./include/header.php'); ?>
 		<!-- #END# Top Bar -->
 	
 		<section class="container">
 			<div class="form-group custom-input-space has-feedback">
-				<form id="saveModel" class="new-elem" method="post">
-					<filedset>
-					<legend>Új bolt felvétele:</legend>
-    				<p>
-    				    <label for="boltNeve">Bolt Neve:</label><br>
-    				    <input type="text" name="nev" id="nev"><br>
-    				</p>
-    				<p>
-    				    <label for="partnerid">PartnerID:</label><br>
-    				    <select class="select-input" id="partnerid" name="partnerid">
-							<?php 
-								include('include/mysqli_connect.php');
-								$partnerids = mysqli_query($con, "SELECT DISTINCT partnerid FROM bolt");
-								while($c = mysqli_fetch_array($partnerids)) { 
-							?>
-							<option value="<?= $c['partnerid']?>"><?= $c['partnerid']?></option>
-						  	<?php } ?>
-  						</select>
-    				</p>
-    					<button type="submit" name="insert" class="btn btn-primary">Felvétel</button>
-					</filedset>
-				</form>
+				<div class="page-heading">
+					<h3 class="post-title">3. Kész felület</h3>
+				</div>
 				<div class="page-body clearfix">
 					<div class="row">
 						<div class="col-md-offset-1 col-md-10">
 							<div class="panel panel-default">
-								<div class="panel-heading">Boltok listája:</div>
+								<div class="panel-heading">Vásárlás részletei lista:</div>
 								<div class="panel-body">
 									
-									<table id="post_list" class="dataTable" width="100%" cellspacing="0">
+									<table id="vasarlas_reszletei_list" class="dataTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
-												<th>ID</th>
-												<th>Név</th>
+												<th>TételID</th>
+												<th>PartnercID</th>
+												<th>Mennyiég</th>
+												<th>Bruttó ára</th>
 												<th>PartnerID</th>
 											</tr>
 										</thead>
+								 
 									</table>
+									
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>
 		</section>
     </div>
+	
 	
 	
 	<!-- DataTables -->
@@ -107,60 +107,26 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-	<script>
-	$(document).ready(function(e){
-		var table = $('#post_list').dataTable({
-			"bProcessing": true,
+	
+	<script> 
+	$(document).ready(function(){
+		$('#vasarlas_reszletei_list').DataTable({
+			"processing": true,
          	"serverSide": true,
          	"ajax":{
-	            url :"list/bolt_list.php",
+	            url :"list/vasarlas_reszletei_list.php",
 	            type: "POST",
 	            error: function(){
-	              $("#post_list_processing").css("display","none");	
+	              $("#post_list_processing").css("display","none");
 	            }
           	},
 			dom: 'lBfrtip',
     		buttons: [
         		'copy', 'csv', 'excel', 'pdf'
    			],
-			"lengthMenu": [ [10, 25, 50, 100], [10, 25, 50, "All"] ]
+			"lengthMenu": [ [10, 25, 50, 36000], [10, 25, 50, "All"] ],
         });
 	});
-    </script>
-
-	<script>
-		$(document).on('submit', '#saveModel', function(event){
-			event.preventDefault();
-			var nev = $('#nev').val();
-			var partnerid = $('#partnerid').val();
-			
-			if(nev != '')
-			{
-				$.ajax({
-					url:"action/bolt_insert.php",
-					method: 'POST',
-					data: {
-						nev: nev,
-						partnerid: partnerid,
-					},
-					success:function(data)
-					{
-						console.log("Response data:", data);
-						var json = JSON.parse(data);
-						var status = json.status;
-						if(status=="true")
-						{
-							table.ajax.reload(null, false)
-							alert('Sikeres új bolt felvétele!');
-						}
-					}
-				});
-			} 
-			else 
-			{
-				alert("Kérlek töltsd ki a mezőt!")
-			}
-		})
 	</script>
 </body>
 </html>

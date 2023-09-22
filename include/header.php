@@ -43,7 +43,9 @@ li.dropdown {
 					
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav navbar-link">
-							<!-- Call Search -->
+							<li>
+								<a href="index.php" data-close="true"> Főoldal</a>
+							</li>
 							<li class="dropdown">
 								<a href="javascript:void(0)" class="dropbtn">Szerveoldai rész</a>
     								<div class="dropdown-content">
