@@ -93,7 +93,7 @@
 																		ORDER BY bolt.nev ASC");
 										while($c = mysqli_fetch_array($boltids)) { 
 									?>
-									<option id="<?= $c['boltid']?>"><?= $c['boltid']?></option>
+									<option id="<?= $c['boltid']?>"><?= $c['nev']?></option>
 								  	<?php } ?>
   								</select>
     						</p>

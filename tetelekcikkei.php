@@ -72,7 +72,7 @@
 					<div class="row">
 						<div class="col-md-offset-1 col-md-10">
 							<div class="panel panel-default">
-								<div class="panel-heading">Vásárlás tételei lista:</div>
+								<div class="panel-heading">Tétel cikke:</div>
 								<div class="panel-body">
 									
 									<table id="vasarlas_reszletei_list" class="dataTable" width="100%" cellspacing="0">
