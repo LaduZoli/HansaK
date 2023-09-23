@@ -60,11 +60,11 @@
 							<legend>Új vásárlás felvétele:</legend>
     						<p>
     						    <label for="boltNeve">Dátum:</label><br>
-    						    <input type="datetime-local" name="datum" id="datum"><br>
+    						    <input type="datetime-local" name="esemenydatumido" id="esemenydatumido"><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Összeg:</label><br>
-    						    <input type="text" name="osszeg" id="osszeg"><br>
+    						    <input type="text" name="vasarlasosszeg" id="vasarlasosszeg"><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Pénztárgépazonosító:</label><br>
@@ -78,7 +78,7 @@
 										$partnerids = mysqli_query($con, "SELECT DISTINCT partnerid FROM vasarlas");
 										while($c = mysqli_fetch_array($partnerids)) { 
 									?>
-									<option value="<?= $c['id']?>"><?= $c['partnerid']?></option>
+									<option value="<?= $c['partnerid']?>"><?= $c['partnerid']?></option>
 								  	<?php } ?>
   								</select>
     						</p>
@@ -163,33 +163,35 @@
 		$(document).on('submit', '#saveModel', function(event){
 			event.preventDefault();
 			var esemenydatumido = $('#esemenydatumido').val();
-			var vasarlasooszeg = $('#vasarlasooszeg').val();
+			var vasarlasosszeg = $('#vasarlasosszeg').val();
 			var penztargepazonosito = $('#penztargepazonosito').val();
 			var partnerid = $('#partnerid').val();
 			var boltid = $('#boltid').val();
-			alert(boltid);
-			if(esemenydatumido != '' && vasarlasooszeg!= '' && penztargepazonosito != '')
+
+			if(esemenydatumido != '' && vasarlasosszeg!= '' && penztargepazonosito != '')
 			{
 				$.ajax({
 					url:"action/vasarlas_insert.php",
-					method: 'post',
+					method: 'POST',
 					data: {
 						esemenydatumido: esemenydatumido,
-						vasarlasooszeg: vasarlasooszeg,
-						nev: nev,
+						vasarlasosszeg: vasarlasosszeg,
 						penztargepazonosito: penztargepazonosito,
 						partnerid: partnerid,
 						boltid: boltid,
 					},
 					success:function(data)
 					{
+						console.log("Response data:", data);
 						var json = JSON.parse(data);
 						var status = json.status;
 						if(status=="true")
 						{
-							table = $('#post_list').dataTable();
-							table.draw();
-							alert('successfully Cikk added');
+							$('#post_list').DataTable().ajax.reload();
+                            alert('Sikeres új vásárlási tátel felvétele!');
+						}
+						else {
+							alert('Hiba történt az adatok beszúrása közben.');
 						}
 					}
 				});

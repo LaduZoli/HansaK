@@ -129,7 +129,7 @@
 			"lengthMenu": [ [10, 25, 50, 36000], [10, 25, 50, "All"] ],
 			columnDefs: [
 				{
-					targets: -1, // -1 targets the last column
+				targets: -1, // -1 targets the last column
                 data: null, // Use data from the row's data source
                 render: function (data, type, row) {
                     // Create a button with an onClick function

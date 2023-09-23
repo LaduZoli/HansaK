@@ -11,29 +11,36 @@
 	    $params = $_REQUEST;
 
 	    $columns = array(
-	    	0 => 'vasarlas_tetel.id',
-	    	1 => 'vasarlas_tetel.partnerctid', 
-	    	2 => 'vasarlas_tetel.mennyiseg',
-	    	3 => 'vasarlas_tetel.brutto',
-	    	4 => 'vasarlas_tetel.partnerid'
-	    );
+	    	0 => 'cikkek.id',
+	    	1 => 'cikkek.cikkszam',
+	    	2 => 'cikkek.vonalkod',
+	    	3 => 'cikkek.nev',
+	    	4 => 'cikkek.mennyisegiegyseg',
+	    	5 => 'cikkek.nettoegysegar',
+	    	6 => 'cikkek.verzio',
+	    	7 => 'cikkek.partnerid'
+     	);
 
 	    $where_condition = $sqlTot = $sqlRec = "";
 
 	    if( !empty($params['search']['value']) ) {
 	    	$where_condition .=	" WHERE ";
-	    	$where_condition .= " ( vasarlas_tetel.id LIKE '%".$params['search']['value']."%' ";
-	    	$where_condition .= " OR vasarlas_tetel.partnerctid LIKE '%".$params['search']['value']."%' ";    
-	    	$where_condition .= " OR vasarlas_tetel.mennyiseg LIKE '%".$params['search']['value']."%' ";
-	    	$where_condition .= " OR vasarlas_tetel.brutto LIKE '%".$params['search']['value']."%' ";
-	    	$where_condition .= " OR vasarlas_tetel.partnerid LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " ( cikkek.id LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " OR cikkek.cikkszam LIKE '%".$params['search']['value']."%' ";    
+	    	$where_condition .= " OR cikkek.vonalkod LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " OR cikkek.nev LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " OR cikkek.mennyisegiegyseg LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " OR cikkek.nettoegysegar LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " OR cikkek.verzio LIKE '%".$params['search']['value']."%' ";
+	    	$where_condition .= " OR cikkek.partnerid LIKE '%".$params['search']['value']."%' )";
 	    }
 
-	    $sql_query = " SELECT vasarlas_tetel.id, vasarlas_tetel.partnerctid, 
-                            vasarlas_tetel.mennyiseg, vasarlas_tetel.brutto, vasarlas_tetel.partnerid
-                        FROM vasarlas_tetel 
-                        INNER JOIN vasarlas ON vasarlas_tetel.vasarlasid = vasarlas.id
-                        WHERE vasarlas.id = $id";
+	    $sql_query = " SELECT DISTINCT cikkek.id, cikkek.cikkszam, cikkek.vonalkod, cikkek.nev,
+                            cikkek.mennyisegiegyseg, cikkek.nettoegysegar, cikkek.verzio,
+                            cikkek.partnerid
+                        FROM cikkek
+                        INNER JOIN vasarlas_tetel ON cikkek.id = vasarlas_tetel.partnerctid
+                        WHERE vasarlas_tetel.partnerctid = $id";
 	    $sqlTot .= $sql_query;
 	    $sqlRec .= $sql_query;
     

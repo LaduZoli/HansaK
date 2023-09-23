@@ -1,29 +1,49 @@
 <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ensure that the necessary POST data is received
+    if (isset($_POST['esemenydatumido']) && isset($_POST['vasarlasosszeg']) && isset($_POST['penztargepazonosito'])
+         && isset($_POST['partnerid']) && isset($_POST['boltid'])) {
+        // Retrieve the data from the POST request
+        $esemenydatumido = $_POST['esemenydatumido'];
+        $vasarlasosszeg = $_POST['vasarlasosszeg'];
+        $penztargepazonosito = $_POST['penztargepazonosito'];
+        $partnerid = $_POST['partnerid'];
+        $boltid = $_POST['boltid'];
 
-include('../include/mysqli_connect.php');
+        // Include the database connection script
+        include('../include/mysqli_connect.php');
 
-$datum = $_POST['datum'];
-$osszeg = $_POST['osszeg'];
-$penztargepazonosito = $_POST['penztargepazonosito'];
-$partnerid = $_POST['partnerid'];
-$boltid = $_POST['boltid'];;
- 
-$query = "INSERT INTO `vasarlas` (`datum`, `osszeg`, `penztargepazonosito`, `partnerid`, `boltid`) 
-        VALUES ('$id', '$datum', '$osszeg', '$penztargepazonosito', '$partnerid', '$boltid')";
-$query_run = mysqli_query($con, $query);
-$lastId = mysqli_insert_id($con);
+        // Prepare an SQL statement to insert data
+        $sql = "INSERT INTO vasarlas (esemenydatumido, vasarlasosszeg, penztargepazonosito,
+               partnerid, boltid) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
 
-if($query_run) 
-{
-   $data = array(
-        'status'=>'true',
-   );
-   echo json_encode($data);
-}
-else {
-    $data = array(
-        'status'=>'false',
-   );
-   echo json_encode($data);
+        // Bind parameters
+        $stmt->bind_param("sssss", $esemenydatumido, $vasarlasosszeg, $penztargepazonosito,
+         $partnerid, $boltid);
+
+        // Execute the SQL statement
+        try {
+            // Your database operations here
+            if ($stmt->execute()) {
+                // Data successfully inserted
+                $response = array("status" => "true");
+                echo json_encode($response);
+            } else {
+                // Handle other cases or provide a detailed error message
+                $response = array("status" => "false", "error" => "Database error: " . mysqli_error($con));
+                echo json_encode($response);
+            }
+        } catch (Exception $e) {
+            $response = array("status" => "false", "error" => "Exception: " . $e->getMessage());
+            echo json_encode($response);
+        }
+        
+    } else {
+        // Handle missing POST data
+        $response = array("status" => "false", "message" => "Missing POST data");
+        echo json_encode($response);
+        error_log("Missing POST data in vasarlas_insert.php");
+    }
 }
 ?>

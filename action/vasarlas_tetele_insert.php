@@ -1,32 +1,49 @@
 <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ensure that the necessary POST data is received
+    if (isset($_POST['partnerctid']) && isset($_POST['vasarlasid']) && isset($_POST['mennyiseg'])
+    && isset($_POST['brutto']) && isset($_POST['partnerid'])) {
+        // Retrieve the data from the POST request
+        $partnerctid = $_POST['partnerctid'];
+        $vasarlasid = $_POST['vasarlasid'];
+        $mennyiseg = $_POST['mennyiseg'];
+        $brutto = $_POST['brutto'];
+        $partnerid = $_POST['partnerid'];
 
-include('../include/mysqli_connect.php');
+        // Include the database connection script
+        include('../include/mysqli_connect.php');
 
-$partnerctid = $_POST['partnerctid'];
-$vasarlasid = $_POST['vasarlasid'];
-$mennyiseg = $_POST['mennyiseg'];
-$brutto = $_POST['brutto'];
-$partnerid = $_POST['partnerid'];
-$boltid = $_POST['boltid'];
- 
-// Attempt insert query execution
-$query = "INSERT INTO `vasarlas_tetel` (`partnerctid`, `vasarlasid`, `mennyiseg`, `brutto`, `partnerid`, `boltid`) 
-        VALUES ('$partnerctid', '$vasarlasid', '$mennyiseg', '$brutto', '$partnerid', '$boltid')";
-$query_run = mysqli_query($con, $query);
-$lastId = mysqli_insert_id($con);
+        // Prepare an SQL statement to insert data
+        $sql = "INSERT INTO vasarlas_tetel (partnerctid, vasarlasid, mennyiseg, brutto,
+                  partnerid) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
 
-if($query_run) 
-{
-   $data = array(
-        'status'=>'true',
-   );
-   echo json_encode($data);
+        // Bind parameters
+        $stmt->bind_param("sssss", $partnerctid, $vasarlasid, $mennyiseg, $brutto,
+        $partnerid);
+
+        // Execute the SQL statement
+        try {
+            // Your database operations here
+            if ($stmt->execute()) {
+                // Data successfully inserted
+                $response = array("status" => "true");
+                echo json_encode($response);
+            } else {
+                // Handle other cases or provide a detailed error message
+                $response = array("status" => "false", "error" => "Database error: " . mysqli_error($con));
+                echo json_encode($response);
+            }
+        } catch (Exception $e) {
+            $response = array("status" => "false", "error" => "Exception: " . $e->getMessage());
+            echo json_encode($response);
+        }
+        
+    } else {
+        // Handle missing POST data
+        $response = array("status" => "false", "message" => "Missing POST data");
+        echo json_encode($response);
+        error_log("Missing POST data in vasarlas_tetel_insert.php");
+    }
 }
-else {
-    $data = array(
-        'status'=>'false',
-   );
-   echo json_encode($data);
-}
-
 ?>

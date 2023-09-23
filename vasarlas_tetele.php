@@ -66,7 +66,7 @@
 										$partnerctids = mysqli_query($con, "SELECT DISTINCT partnerctid FROM vasarlas_tetel");
 										while($c = mysqli_fetch_array($partnerctids)) { 
 									?>
-									<option value="<?= $c['id']?>"><?= $c['partnerctid']?></option>
+									<option value="<?= $c['partnerctid']?>"><?= $c['partnerctid']?></option>
 								  	<?php } ?>
   								</select>
     						</p>
@@ -78,7 +78,7 @@
 										$vasarlasids = mysqli_query($con, "SELECT DISTINCT vasarlasid FROM vasarlas_tetel");
 										while($c = mysqli_fetch_array($vasarlasids)) { 
 									?>
-									<option value="<?= $c['id']?>"><?= $c['vasarlasid']?></option>
+									<option value="<?= $c['vasarlasid']?>"><?= $c['vasarlasid']?></option>
 								  	<?php } ?>
   								</select>
     						</p>
@@ -98,7 +98,7 @@
 										$partnerids = mysqli_query($con, "SELECT DISTINCT partnerid FROM vasarlas_tetel");
 										while($c = mysqli_fetch_array($partnerids)) { 
 									?>
-									<option value="<?= $c['id']?>"><?= $c['partnerid']?></option>
+									<option value="<?= $c['partnerid']?>"><?= $c['partnerid']?></option>
 								  	<?php } ?>
   								</select>
     						</p>
@@ -168,34 +168,37 @@
 	<script>
 		$(document).on('submit', '#saveModel', function(event){
 			event.preventDefault();
-			var partnercid = $('#partnercid').val();
+			var partnerctid = $('#partnerctid').val();
 			var vasarlasid = $('#vasarlasid').val();
 			var mennyiseg = $('#mennyiseg').val();
 			var brutto = $('#brutto').val();
 			var partnerid = $('#partnerid').val();
 
-			if(mennyiseg != ''&& brutto != '')
+			if(partnerctid !== '' && vasarlasid !== '' && mennyiseg !== '' && brutto !== ''
+			&& partnerid !=='')
 			{
 				$.ajax({
 					url:"action/vasarlas_tetele_insert.php",
-					method: 'post',
+					method: 'POST',
 					data: {
-						partnercid: partnercid,
+						partnerctid: partnerctid,
 						vasarlasid: vasarlasid,
 						mennyiseg: mennyiseg,
-						mennyisegiegyseg: mennyisegiegyseg,
 						brutto: brutto,
 						partnerid: partnerid
 					},
 					success:function(data)
 					{
+						console.log("Response data:", data);
 						var json = JSON.parse(data);
 						var status = json.status;
 						if(status=="true")
 						{
-							table = $('#post_list').dataTable();
-							table.draw();
-							alert('successfully Cikk added');
+							$('#post_list').DataTable().ajax.reload();
+                            alert('Sikeres új vásárlási tátel felvétele!');
+						}
+						else {
+							alert('Hiba történt az adatok beszúrása közben.');
 						}
 					}
 				});

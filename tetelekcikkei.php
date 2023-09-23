@@ -71,43 +71,21 @@
 				<div class="page-body clearfix">
 					<div class="row">
 						<div class="col-md-offset-1 col-md-10">
-							<form id="saveModel" class="new-elem" action="action/vasarlas_tetele_insert.php" method="post">
-							<filedset>
-							<legend>Új vásárlási tétel felvétele:</legend>
-    						<p>
-    						   	<label for="partnercid">PartnerctID:</label><br>
-    						   	<select class="select-input" id="partnerctid" name="partnerctid">
-									<?php 
-										include('./include/mysqli_connect.php');
-										$partnerctids = mysqli_query($con, "SELECT nev, id
-																			FROM cikkek
-																			ORDER BY nev ASC");
-										while($c = mysqli_fetch_array($partnerctids)) { 
-									?>
-									<option value="<?= $c['id']?>"><?= $c['nev']?></option>
-							  		<?php } ?>
-  								</select>
-    						</p>
-							<p>
-    						    <label for="boltNeve">Mennyiség:</label><br>
-    						    <input type="number" name="mennyiseg" id="mennyiseg"><br>
-    						</p>
-    						<input type="submit" value="Felvétel">
-							</filedset>
-							</form>
 							<div class="panel panel-default">
-								<div class="panel-heading">Vásárlás tételének részletei lista:</div>
+								<div class="panel-heading">Vásárlás tételei lista:</div>
 								<div class="panel-body">
 									
-									<table id="post_list" class="dataTable" width="100%" cellspacing="0">
+									<table id="vasarlas_reszletei_list" class="dataTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
-												<th>TételID</th>
-												<th>PartnerctID</th>
-												<th>Mennyiég</th>
-												<th>Bruttó ára</th>
+												<th>CikkID</th>
+												<th>Cikkszám</th>
+												<th>Vonalkód</th>
+												<th>Név</th>
+												<th>Mennyiség egysége</th>
+												<th>Nettó egységár</th>
+												<th>Verzió</th>
 												<th>PartnerID</th>
-												<th>Részletek</th>
 											</tr>
 										</thead>
 								 
@@ -140,11 +118,11 @@
 		const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 		
-		$('#post_list').DataTable({
+		$('#vasarlas_reszletei_list').DataTable({
 			"processing": true,
          	"serverSide": true,
          	"ajax":{
-	            url :`list/vasarlas_reszletei_list.php?id=${id}`,
+	            url :`list/tetelcikkei_list.php?id=${id}`,
 	            type: "POST",
 	            error: function(){
 	              $("#post_list_processing").css("display","none");
@@ -154,64 +132,9 @@
     		buttons: [
         		'copy', 'csv', 'excel', 'pdf'
    			],
-			"lengthMenu": [ [10, 25, 50, 36000], [10, 25, 50, "All"] ],
-			columnDefs: [
-				{
-				targets: -1, // -1 targets the last column
-                data: null, // Use data from the row's data source
-                render: function (data, type, row) {
-                    // Create a button with an onClick function
-                    return '<button class="details-button" onclick="handleButtonClick(' + data[1] + ')">Cikkek megtekintése</button>';
-                	}
-				}
-			]
+			"lengthMenu": [ [10, 25, 50, 36000], [10, 25, 50, "All"] ]
         });
 	});
-	</script>
-	<script>
-		$(document).on('submit', '#saveModel', function(event){
-			event.preventDefault(); 
-			var urlParams = new URLSearchParams(window.location.search);
-			var vasarlasid = urlParams.get('id');
-			var partnerctid = $('#partnerctid').val();
-			var mennyiseg = $('#mennyiseg').val();
-
-			if(vasarlasid !=='' && partnerctid !== '' && mennyiseg !== '')
-			{
-				$.ajax({
-					url:"action/vasarlasreszletei_insert.php",
-					method: 'POST',
-					data: {
-						partnerctid: partnerctid,
-						vasarlasid: vasarlasid,
-						mennyiseg: mennyiseg
-					},
-					success:function(data)
-					{
-						console.log("Response data:", data);
-						var json = JSON.parse(data);
-						var status = json.status;
-						if(status=="true")
-						{
-							$('#post_list').DataTable().ajax.reload();
-                            alert('Sikeres, új tétel a vásárláshoz!');
-						}
-						else {
-							alert('Hiba történt az adatok beszúrása közben.');
-						}
-					}
-				});
-			} 
-			else 
-			{
-				alert("Kérlek töltsd ki a mezőt!")
-			}
-		})
-	</script>
-	<script>
-		function handleButtonClick(id) {
-			window.location.href = 'tetelekcikkei.php?id=' + id;
-    }
 	</script>
 </body>
 </html>

@@ -134,7 +134,7 @@
 			var nev = $('#nev').val();
 			var partnerid = $('#partnerid').val();
 			
-			if(nev != '')
+			if (nev !== '' && partnerid !== '')
 			{
 				$.ajax({
 					url:"action/bolt_insert.php",
@@ -150,8 +150,11 @@
 						var status = json.status;
 						if(status=="true")
 						{
-							table.ajax.reload(null, false)
-							alert('Sikeres új bolt felvétele!');
+							$('#post_list').DataTable().ajax.reload();
+                            alert('Sikeres új bolt felvétele!');
+						}
+						else {
+							alert('Hiba történt az adatok beszúrása közben.');
 						}
 					}
 				});

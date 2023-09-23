@@ -47,7 +47,7 @@ li.dropdown {
 								<a href="index.php" data-close="true"> Főoldal</a>
 							</li>
 							<li class="dropdown">
-								<a href="javascript:void(0)" class="dropbtn">Szerveoldai rész</a>
+								<a href="javascript:void(0)" class="dropbtn">2. rész</a>
     								<div class="dropdown-content">
     								  <a href="bolt.php">Bolt lista</a>
     								  <a href="cikkek.php">Cikkek lista</a>
@@ -56,7 +56,7 @@ li.dropdown {
     								</div>
 							</li>
 							<li>
-							   <a href="kesz_felulet.php" data-close="true"> Kész felülelet</a>
+							   <a href="kesz_felulet.php" data-close="true"> 3. rész</a>
 							</li>
 						</ul>
 					</div>

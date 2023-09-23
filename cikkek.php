@@ -90,7 +90,7 @@
 										$partnerids = mysqli_query($con, "SELECT DISTINCT partnerid FROM cikkek");
 										while($c = mysqli_fetch_array($partnerids)) { 
 									?>
-									<option value="<?= $c['id']?>"><?= $c['partnerid']?></option>
+									<option value="<?= $c['partnerid']?>"><?= $c['partnerid']?></option>
 								  	<?php } ?>
   								</select>
     						</p>
@@ -166,11 +166,12 @@
 			var verzio = $('#verzio').val();
 			var partnerid = $('#partnerid').val();
 
-			if(cikkszam != '' && vonalkod != '' && nev != '' && mennyisegiegyseg != '' && nettoegysegar != '' && verzio != '')
+			if(cikkszam !== '' && vonalkod !== '' && nev !== '' && mennyisegiegyseg !== 
+			'' && nettoegysegar !== '' && verzio !== '' && partnerid !== '')
 			{
 				$.ajax({
 					url:"action/cikkek_insert.php",
-					method: 'post',
+					method: 'POST',
 					data: {
 						cikkszam: cikkszam,
 						vonalkod: vonalkod,
@@ -182,13 +183,16 @@
 					},
 					success:function(data)
 					{
+						console.log("Response data:", data);
 						var json = JSON.parse(data);
 						var status = json.status;
 						if(status=="true")
 						{
-							table = $('#post_list').dataTable();
-							table.draw();
-							alert('successfully Cikk added');
+							$('#post_list').DataTable().ajax.reload();
+                            alert('Sikeres új cikk felvétele!');
+						}
+						else {
+							alert('Hiba történt az adatok beszúrása közben.');
 						}
 					}
 				});
