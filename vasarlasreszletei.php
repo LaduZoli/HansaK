@@ -90,7 +90,7 @@
     						</p>
 							<p>
     						    <label for="boltNeve">Mennyiség:</label><br>
-    						    <input type="number" name="mennyiseg" id="mennyiseg"><br>
+    						    <input type="number" name="mennyiseg" id="mennyiseg" pattern="^[1-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
     						</p>
     						<input type="submit" value="Felvétel">
 							</filedset>
@@ -152,7 +152,30 @@
           	},
 			dom: 'lBfrtip',
     		buttons: [
-        		'copy', 'csv', 'excel', 'pdf'
+				{
+                	extend: 'copy',
+                	exportOptions: {
+                    	columns: [0, 1, 2, 3, 4, 5] 
+                	}
+            	},
+            	{
+            	    extend: 'csv',
+            	    exportOptions: {
+            	        columns: [0, 1, 2, 3, 4, 5]
+            	    }
+            	},
+            	{
+            	    extend: 'excel',
+            	    exportOptions: {
+            	        columns: [0, 1, 2, 3, 4, 5]
+            	    }
+            	},
+            	{
+            	    extend: 'pdf',
+            	    exportOptions: {
+            	        columns: [0, 1, 2, 3, 4, 5]
+            	    }
+            	}
    			],
 			"lengthMenu": [ [10, 25, 50, 36000], [10, 25, 50, "All"] ],
 			columnDefs: [

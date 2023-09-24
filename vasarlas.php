@@ -60,15 +60,15 @@
 							<legend>Új vásárlás felvétele:</legend>
     						<p>
     						    <label for="boltNeve">Dátum:</label><br>
-    						    <input type="datetime-local" name="esemenydatumido" id="esemenydatumido"><br>
+    						    <input type="datetime-local" name="esemenydatumido" id="esemenydatumido" pattern="\d{4}\d{2}\d{2}\d{2}:\d{2}" title="Érvényes dátum formátum: ÉÉÉÉ.HH.NN. ÓÓ:PP"><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Összeg:</label><br>
-    						    <input type="text" name="vasarlasosszeg" id="vasarlasosszeg"><br>
+    						    <input type="number" name="vasarlasosszeg" id="vasarlasosszeg" pattern="[0-9]+(\.[0-9]+)?" min="1" title="Kérlek, csak pozitív számokat adj meg!" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Pénztárgépazonosító:</label><br>
-    						    <input type="text" name="penztargepazonosito" id="penztargepazonosito"><br>
+    						    <input type="number" name="penztargepazonosito" id="penztargepazonosito" pattern="[0-9]+" min="1" title="Kérlek, csak számokat adj meg!" required><br>
     						</p>
     						<p>
     						    <label for="partnerId">PartnerID:</label><br>
@@ -87,13 +87,12 @@
     						    <select class="select-input" id="boltid" name="boltid">
 									<?php 
 										include('./include/mysqli_connect.php');
-										$boltids = mysqli_query($con, "SELECT DISTINCT boltid, bolt.nev 
-																		FROM vasarlas
-																		INNER JOIN bolt ON vasarlas.boltid = bolt.id
-																		ORDER BY bolt.nev ASC");
+										$boltids = mysqli_query($con, "SELECT  id, nev 
+																		FROM bolt
+																		ORDER BY nev ASC");
 										while($c = mysqli_fetch_array($boltids)) { 
 									?>
-									<option id="<?= $c['boltid']?>"><?= $c['nev']?></option>
+									<option value="<?= $c['id']?>']?>"><?=$c['id']?> - <?= $c['nev']?></option>
 								  	<?php } ?>
   								</select>
     						</p>
@@ -188,7 +187,7 @@
 						if(status=="true")
 						{
 							$('#post_list').DataTable().ajax.reload();
-                            alert('Sikeres új vásárlási tátel felvétele!');
+                            alert('Sikeres, új vásárlás felvétele!');
 						}
 						else {
 							alert('Hiba történt az adatok beszúrása közben.');

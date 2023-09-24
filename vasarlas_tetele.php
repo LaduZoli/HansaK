@@ -60,7 +60,7 @@
 							<legend>Új vásárlási tétel felvétele:</legend>
     						<p>
     						    <label for="partnercid">PartnercID:</label><br>
-    						    <select class="select-input" id="partnerctid" name="partnerctid">
+    						    <select class="select-input" id="partnerctid" name="partnerctid" pattern="[0-9]+(\.[0-9]+)?" title="Kérlek, csak számokat adj meg!" required>
 									<?php 
 										include('./include/mysqli_connect.php');
 										$partnerctids = mysqli_query($con, "SELECT DISTINCT partnerctid FROM vasarlas_tetel");
@@ -83,12 +83,12 @@
   								</select>
     						</p>
 							<p>
-    						    <label for="boltNeve">Mennyiség:</label><br>
-    						    <input type="number" name="mennyiseg" id="mennyiseg"><br>
+    						    <label>Mennyiség:</label><br>
+    						    <input type="number" name="mennyiseg" id="mennyiseg" pattern="^[1-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
     						</p>
 							<p>
-    						    <label for="boltNeve">Bruttó:</label><br>
-    						    <input type="text" name="brutto" id="brutto"><br>
+    						    <label>Bruttó:</label><br>
+    						    <input type="text" inputmode="decimal"  name="brutto" id="brutto" pattern="[0-9]*[.]?[0-9]*" title="Csak pozitív  számok engedélyezettek!"  required><br>
     						</p>
     						<p>
     						    <label for="partnerId">PartnerID:</label><br>

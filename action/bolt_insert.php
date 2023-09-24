@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $con->prepare($sql);
 
         // Bind parameters
-        $stmt->bind_param("ss", $nev, $partnerid);
+        $stmt->bind_param("si", $nev, $partnerid);
 
         // Execute the SQL statement
         try {

@@ -60,31 +60,31 @@
 							<legend>Új cikk felvétele:</legend>
     						<p>
     						    <label for="boltNeve">Cikkszám:</label><br>
-    						    <input type="text" name="cikkszam" id="cikkszam"><br>
+    						    <input type="text" name="cikkszam" id="cikkszam" pattern="^[0-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Vonalkód:</label><br>
-    						    <input type="text" name="vonalkod" id="vonalkod"><br>
+    						    <input type="text" name="vonalkod" id="vonalkod" pattern="^[1-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Név:</label><br>
-    						    <input type="text" name="nev" id="nev"><br>
+    						    <input type="text" name="nev" id="nev" pattern="[0-9a-zA-Z ]+" title="Csak számok és karakterek engedélyezettek" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Mennyiség egysége:</label><br>
-    						    <input type="text" name="mennyisegiegyseg" id="mennyisegiegyseg"><br>
+    						    <input type="text" name="mennyisegiegyseg" id="mennyisegiegyseg" pattern="[0-9a-zA-Z ]*" title="Csak számok és karakterek engedélyezettek" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Nettó egységár:</label><br>
-    						    <input type="text" name="nettoegysegar" id="nettoegysegar"><br>
+    						    <input type="text" name="nettoegysegar" id="nettoegysegar" pattern="[0-9]+(\.[0-9]+)?" title="Csak számok engedélyezettek!" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Verzió:</label><br>
-    						    <input type="text" name="verzio" id="verzio"><br>
+    						    <input type="text" name="verzio" id="verzio" pattern="^[1-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
     						</p>
     						<p>
     						    <label for="partnerId">PartnerID:</label><br>
-    						    <select class="select-input" id="partnerid" name="partnerid">
+    						    <select class="select-input" id="partnerid" name="partnerid ">
 									<?php 
 										include('./include/mysqli_connect.php');
 										$partnerids = mysqli_query($con, "SELECT DISTINCT partnerid FROM cikkek");

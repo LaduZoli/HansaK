@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // Calculate the brutto
         $stmt_nettoar->close();
-        $brutto = floatval(round($nettoegysegar * 1.27));
+        $brutto = $mennyiseg * round(floatval($nettoegysegar) * 1.27);
         
         
         // Query to retrieve partnerid

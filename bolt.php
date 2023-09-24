@@ -55,7 +55,7 @@
 					<legend>Új bolt felvétele:</legend>
     				<p>
     				    <label for="boltNeve">Bolt Neve:</label><br>
-    				    <input type="text" name="nev" id="nev"><br>
+    				    <input type="text" name="nev" id="nev" pattern="[0-9a-zA-Z ]*+" title="Csak számok és karakterek engedélyezettek" required><br>
     				</p>
     				<p>
     				    <label for="partnerid">PartnerID:</label><br>

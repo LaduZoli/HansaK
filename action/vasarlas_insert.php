@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $con->prepare($sql);
 
         // Bind parameters
-        $stmt->bind_param("sssss", $esemenydatumido, $vasarlasosszeg, $penztargepazonosito,
+        $stmt->bind_param("sdiii", $esemenydatumido, $vasarlasosszeg, $penztargepazonosito,
          $partnerid, $boltid);
 
         // Execute the SQL statement

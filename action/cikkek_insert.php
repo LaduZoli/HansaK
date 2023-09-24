@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $con->prepare($sql);
 
         // Bind parameters
-        $stmt->bind_param("sssssss", $cikkszam, $vonalkod, $nev, $mennyisegiegyseg, 
+        $stmt->bind_param("ssssdii", $cikkszam, $vonalkod, $nev, $mennyisegiegyseg, 
                 $nettoegysegar, $verzio, $partnerid);
 
         // Execute the SQL statement

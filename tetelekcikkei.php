@@ -65,7 +65,7 @@
 		<section class="container">
 			<div class="form-group custom-input-space has-feedback">
 				<div class="page-heading">
-					<h3 class="post-title">3. Vásárlás tételei</h3>
+					<h3 class="post-title">3. Tételek cikkei</h3>
 				</div>
 				
 				<div class="page-body clearfix">

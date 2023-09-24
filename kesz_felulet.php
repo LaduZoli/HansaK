@@ -124,7 +124,30 @@
           	},
 			dom: 'lBfrtip',
     		buttons: [
-        		'copy', 'csv', 'excel', 'pdf'
+        		{
+                	extend: 'copy',
+                	exportOptions: {
+                    	columns: [0, 1, 2, 3, 4, 5] 
+                	}
+            	},
+            	{
+            	    extend: 'csv',
+            	    exportOptions: {
+            	        columns: [0, 1, 2, 3, 4, 5]
+            	    }
+            	},
+            	{
+            	    extend: 'excel',
+            	    exportOptions: {
+            	        columns: [0, 1, 2, 3, 4, 5]
+            	    }
+            	},
+            	{
+            	    extend: 'pdf',
+            	    exportOptions: {
+            	        columns: [0, 1, 2, 3, 4, 5]
+            	    }
+            	}
    			],
 			"lengthMenu": [ [10, 25, 50, 36000], [10, 25, 50, "All"] ],
 			columnDefs: [
