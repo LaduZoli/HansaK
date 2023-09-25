@@ -34,7 +34,7 @@
 					<h3 class="post-title">Feleadat bemutatása:</h3>
 				</div>
 				<div class="panel-body">
-                    <p style="font-size:15px">
+                    <p style="font-size: 15px; line-height: 1.5;">
 						Egy full-stack alkalmazás elkészítése, amellyel a mellékelt 
 						adatokat tudjuk megjeleníteni, kezelni, valamint szűrni.
 						Szükség lesz egy szerveroldali (backend) részre, amely kommunikál 

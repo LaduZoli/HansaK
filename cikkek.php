@@ -64,7 +64,7 @@
     						</p>
 							<p>
     						    <label for="boltNeve">Vonalkód:</label><br>
-    						    <input type="text" name="vonalkod" id="vonalkod" pattern="^[1-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
+    						    <input type="text" name="vonalkod" id="vonalkod" pattern="^[0-9]\d*$" min="1" title="Csak pozitív egész számok engedélyezettek!" required><br>
     						</p>
 							<p>
     						    <label for="boltNeve">Név:</label><br>
